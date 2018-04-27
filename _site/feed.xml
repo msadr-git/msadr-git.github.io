@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Star</title>
+    <description>Data Science, Big Data, Business Intelligence
+</description>
+    <link>https://tsadr.github.io/</link>
+    <atom:link href="https://tsadr.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 28 Apr 2018 00:13:47 +0430</pubDate>
+    <lastBuildDate>Sat, 28 Apr 2018 00:13:47 +0430</lastBuildDate>
+    <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>The beginning</title>
+        <description>&lt;p&gt;Here I am going to publish some articles about Data Science, Big data and Business Intelligence.&lt;/p&gt;
+
+&lt;p&gt;And this is just the beginning…&lt;/p&gt;
+</description>
+        <pubDate>Sat, 03 Mar 2018 02:03:03 +0330</pubDate>
+        <link>https://tsadr.github.io/unknown/2018/03/03/first-post.html</link>
+        <guid isPermaLink="true">https://tsadr.github.io/unknown/2018/03/03/first-post.html</guid>
+        
+        
+        <category>unknown</category>
+        
+      </item>
+    
+  </channel>
+</rss>
