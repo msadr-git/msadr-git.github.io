@@ -1,19 +1,84 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
-
 # Site settings
-title: Data Star
-#email: tsadr@tsadr.io
-description: > # this means to ignore newlines until "baseurl:"
-  Data Science, Big Data, Business Intelligence
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://tsadr.github.io" # the base hostname & protocol for your site
-#twitter_username: jekyllrb
-github_username:  tsadr
+title: Data Star # site title
+description: >- # site description
+  I'm Mohammad Sadr, Here I will talk about Data and its applications.
+  Data Star it my blog name :)
+lang: en-US # default lang
+timezone: Asia/Tehran # set your timezone
+image: # This image used for Open Graph more info https://ogp.me/
+repo: # site repo [optional]
+mode: dark # default theme "dark" | "light"
+
+# Profile settings
+author:
+  name: Data Star # author name
+  bio: >- # tell to the world
+    I'm going to publish some articles about Data Science and its applications.
+    You can find me <a href="https://github.com/tsadr" target="_blank" rel="noopener">@github</a>.
+  username: tsadr # author username
+  github: tsadr
+  twitter:
+  facebook:
+  email: jafarisadr+datastar@gmail.com # your contact adress
+  avatar: /assets/img/avatar.jpeg # change with your own avatar
+
+# Url settings
+url: "https://msadr.ir"
+baseurl:
+permalink: /:title/
+google_analytics:
+fb_appid:
+
+# Collection setting
+collections:
+  posts:
+    output: true
+
+# Markdown settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: post
+      comments: false
+
+# Jekyll Compose default front matter
+jekyll_compose:
+  post_default_front_matter:
+    modified:
+    tags: []
+    description:
+  draft_default_front_matter:
+    modified:
+    tags: []
+    description:
 
 # Build settings
-markdown: kramdown
+sass:
+  style: compressed
+
+include:
+  - _redirects
+  - .htaccess
+
+exclude:
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - CHANGELOG.md
+  - README.md
+  - node_modules
+  - CODE_OF_CONDUCT.md
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-postfiles

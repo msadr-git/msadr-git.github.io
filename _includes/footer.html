@@ -1,38 +1,25 @@
-<footer class="site-footer">
-
-  <div class="wrapper">
-
-    <!-- <h2 class="footer-heading">{{ site.title }}</h2> -->
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>{{ site.title }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-2">
-        <ul class="social-media-list">
-          {% if site.github_username %}
-          <li>
-            {% include icon-github.html username=site.github_username %}
-          </li>
-          {% endif %}
-
-          {% if site.twitter_username %}
-          <li>
-            {% include icon-twitter.html username=site.twitter_username %}
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
-      </div>
-    </div>
-
-  </div>
-
+<footer class="footer">
+  <!-- <a class="footer_item" href="/thanks">ack.</a>
+  <a class="footer_item" href="/resume">resume</a> -->
+  <a class="footer_item" href="/feed.xml">rss</a>
+  <span class="footer_item">&copy; {{ site.time | date: "%Y" }}</span>
+  <small class="footer_theme-copyright">
+    <!-- Klisé Theme: https://github.com/piharpi/jekyll-klise -->
+    <a
+      href="https://github.com/piharpi/jekyll-klise"
+      target="_blank"
+      rel="noreferrer noopener"
+      >klisé</a
+    >
+    theme on
+    <a href="https://jekyllrb.com" target="_blank" rel="noreferrer noopener"
+      >jekyll</a
+    >
+  </small>
 </footer>
+<script src="/assets/js/main.js" defer="defer"></script>
+<script src="/assets/js/galite.js"></script>
+<script>
+  var galite = galite || {};
+  galite.UA = "{{ site.google_analytics }}";
+</script>
