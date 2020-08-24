@@ -5,15 +5,13 @@ layout: page
 excerpt: This is my blog about Data and the World.
 comments: false
 ---
-I'm Data Scientist, here I will talk about Data and its applications.
+I'm Data Scientist, here I will talk about Data Science and its applications.
 
 This is all about Data…
 
 This page updates time to time.
 
-Find me here [Github](http://github.com/tsadr).
-
 ##### may u needs ✨
 
-- {{ site.author.email }}
-- github.com/{{ site.author.github }}
+- <a href="mailto:{{ site.author.email }}">Email</a>
+- <a href="https://github.com/{{ site.author.github }}" target="_blank">github.com/tsadr</a>
