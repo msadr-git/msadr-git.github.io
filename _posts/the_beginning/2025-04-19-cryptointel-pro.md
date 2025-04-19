@@ -80,7 +80,7 @@ This is just the beginning. The MVP opens up a world of possibilities:
 
 ## 👩‍💻 Try It Yourself
 
-Want to see CryptoIntel in action? You can [run the notebook](#) or adapt it to analyze your favorite crypto project’s whitepaper. It’s designed to be flexible, extensible, and aligned with the future of crypto intelligence.
+Want to see CryptoIntel in action? You can [run the notebook](https://www.kaggle.com/code/tmsadr/cryptointel) or adapt it to analyze your favorite crypto project’s whitepaper. It’s designed to be flexible, extensible, and aligned with the future of crypto intelligence.
 
 ---
 
