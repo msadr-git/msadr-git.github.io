@@ -5,89 +5,152 @@ modified: 2025-04-19 08:08:08 +04:30
 tags: [crypto, AI, LLM, RAG, GenerativeAI, Gen AI Intensive Course, Capstone 2025Q1]
 description: An AI-Powered Agent for Smart Crypto Market Insights
 ---
-# 🔍 Introducing CryptoIntel: An AI-Powered Agent for Smart Crypto Market Insights
+# 🚀 Building a Generative AI-Powered Analyst for Crypto Market Intelligence
 
-In the fast-moving world of cryptocurrency, staying ahead of trends and understanding new projects requires combing through endless whitepapers, reports, and news. What if an AI agent could handle all that for you—breaking down tokenomics, analyzing sentiment, and even delivering structured insights in real-time?
-
-That's exactly what we’ve started building with **CryptoIntel**, an MVP that uses generative AI to automate the analysis of crypto whitepapers and return structured trading insights. This prototype lays the groundwork for a powerful, intelligent assistant tailored for crypto analysts, investors, and researchers.
+*How we created an MVP that understands crypto whitepapers and answers investor-grade questions using LangChain, Gemini, and vector search.*
 
 ---
 
-## 🚀 What Is CryptoIntel?
+## 🧩 The Problem
 
-CryptoIntel is a **Retrieval-Augmented Generation (RAG)** based AI system that can:
+In the fast-moving world of cryptocurrency, thousands of new tokens, protocols, and platforms launch every year. Whitepapers, blog posts, and documentation are released daily — and most of it is long, technical, and time-consuming to analyze.
 
-- **Read and understand crypto whitepapers** (PDFs)
-- **Summarize complex tokenomics** in simple terms
-- **Return structured answers** in JSON format (great for dashboards and bots)
-- **Answer custom questions** using embedded document search
+**What if we had an AI assistant that could:**
+- Understand these documents,
+- Extract the most important financial and technical details,
+- And answer questions like a human analyst would — but instantly?
 
-It’s built using [LangChain](https://www.langchain.com/), [Google Gemini’s LLM APIs](https://aistudio.google.com), and [Chroma](https://www.trychroma.com/) for vector-based document retrieval.
-
-### ✅ AI Capabilities Demonstrated
-
-This MVP leverages multiple GenAI capabilities, including:
-
-- **Document Understanding** – Parsing and interpreting complex whitepapers
-- **RAG + Vector Search** – Semantic retrieval from unstructured text
-- **Structured Output** – JSON-mode responses for downstream use
+That’s exactly what we set out to build.
 
 ---
 
-## 🛠️ How It Works (Under the Hood)
+## 💡 The Use Case
 
-The MVP follows these steps:
+We created **CryptoIntel**, an MVP (minimal viable product) that uses **generative AI** to analyze crypto whitepapers and answer investor-facing questions, like:
 
-1. **Load a crypto whitepaper** using an unstructured PDF loader
-2. **Split and embed** the text into vector chunks using OpenAI embeddings
-3. **Store** the vectors in a Chroma vector database
-4. **Ask a question**, and let the RetrievalQA chain fetch relevant chunks
-5. **Generate an answer**, using an LLM that formats the output in clear JSON
+> _“What is the total supply and vesting schedule of this token?”_
 
-Here’s a sample query and response:
+This isn't just a chatbot — it’s a **Retrieval-Augmented Generation (RAG)** system that combines document understanding, vector search, and Google Gemini’s LLM to deliver intelligent, structured answers.
 
-**Query:**  
-> "Summarize the tokenomics section in JSON. Include total supply, distribution breakdown, and vesting details."
+---
 
-**Response:**  
+## 🔧 How We Built It
+
+Let’s break down the key components:
+
+### 1. Load the Crypto Whitepaper
+
+```python
+from langchain.document_loaders import UnstructuredPDFLoader
+
+PDF_PATH = "./sample_crypto_whitepaper.pdf"
+loader = UnstructuredPDFLoader(PDF_PATH)
+documents = loader.load()
+```
+
+### 2. Chunk and Embed the Text
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain.vectorstores import Chroma
+
+splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=150)
+docs_split = splitter.split_documents(documents)
+docs_texts = [doc.page_content for doc in docs_split]
+
+DB_NAME = "cryptointel"
+embed_fn = GeminiEmbeddingFunction()
+chroma_client = chromadb.Client()
+db = chroma_client.get_or_create_collection(name=DB_NAME, embedding_function=embed_fn)
+db.add(documents=docs_texts, ids=[str(i) for i in range(len(docs_split))])
+```
+
+### 3. Ask Questions with Contextual Understanding
+
+We used **LangChain’s RetrievalQA** with a custom prompt for non-technical users:
+
+```python
+from langchain_google_genai import GoogleGenerativeAI
+from langchain.chains import RetrievalQA
+
+prompt = f"""You are a friendly and informative assistant helping someone understand a crypto project's whitepaper.
+Use the provided passage as a reference to answer the question below.
+Make your explanation simple, engaging, and non-technical—like you're explaining it to a curious friend.
+If the passage doesn't contain relevant information, let the user know kindly and skip it.
+
+QUESTION: {query}
+"""
+
+# Add the retrieved documents to the prompt.
+for passage in all_passages:
+    passage_oneline = passage.replace("\n", " ")
+    prompt += f"PASSAGE: {passage_oneline}\n"
+
+
+model_config = types.GenerateContentConfig(
+    temperature=0.2,
+)
+
+answer = client.models.generate_content(
+    model="gemini-2.0-flash",
+    config=model_config,
+    contents=prompt)
+```
+
+Output:
+
 ```json
 {
-  "token": "XYZ",
+  "token": "ABC",
   "total_supply": "1,000,000,000",
   "distribution": {
+    "public": "40%",
     "team": "20%",
-    "public_sale": "15%",
     "ecosystem": "30%",
-    "staking": "35%"
+    "reserves": "10%"
   },
-  "vesting": "Team tokens are locked for 1 year and vest over 3 years"
+  "vesting": "Team tokens vest over 24 months with a 6-month cliff."
 }
 ```
 
 ---
 
-## 🌱 What’s Next?
+## ⚠️ Limitations
 
-This is just the beginning. The MVP opens up a world of possibilities:
+While this MVP shows promising results, there are challenges to address:
 
-- **🔔 Real-Time Alerts**: Connect with APIs like CoinGecko or CryptoPanic to auto-generate signals and updates.
-- **📊 Sentiment Analysis**: Ingest tweets and news to measure market mood via embeddings and classification.
-- **🧠 AI Agents**: Create multi-step workflows—e.g., *“Find recent SEC updates + summarize impact on DeFi tokens.”*
-- **📈 Portfolio Assistant**: Integrate with wallets or exchanges to suggest rebalancing strategies based on new project risks.
-- **🌐 Web App Dashboard**: Build an interactive front-end using Streamlit or Gradio for investors and analysts.
+- **Structured extraction isn’t perfect**: The model can hallucinate values if the context isn't clear.
+- **Longer documents may lose context**: RAG pipelines work best when the relevant chunk is retrieved, but that’s not always guaranteed.
+- **No live data yet**: This version analyzes static documents. It doesn’t yet connect to APIs like CoinGecko or social sentiment trackers.
 
 ---
 
-## 👩‍💻 Try It Yourself
+## 🔮 The Future of CryptoIntel
 
-Want to see CryptoIntel in action? You can [run the notebook](https://www.kaggle.com/code/tmsadr/cryptointel) or adapt it to analyze your favorite crypto project’s whitepaper. It’s designed to be flexible, extensible, and aligned with the future of crypto intelligence.
+This is just the beginning. Here’s where we’re taking this:
+
+✅ **Real-Time API Integration**  
+Pull data from CoinMarketCap, Etherscan, or Glassnode to enrich answers with live stats.
+
+✅ **Multi-Modal Understanding**  
+Add image/chart recognition to analyze tokenomics diagrams or financial models in whitepapers.
+
+✅ **Sentiment Analysis**  
+Scrape Twitter/X, Reddit, and news to add emotional context to market narratives.
+
+✅ **Agentic Reasoning**  
+Use LangChain Agents to create multi-step workflows — e.g., retrieve info → correlate events → generate risk report.
+
+✅ **Enterprise Deployment**  
+Offer crypto hedge funds and analysts a secure on-premises or API-based platform to automate research workflows.
 
 ---
 
-## 💬 Final Thoughts
+## 👋 Final Thoughts
 
-CryptoIntel is more than a demo—it's a vision for how **generative AI can transform crypto research**. Instead of spending hours digging through documents, imagine having a conversational agent that delivers precise insights, automates analysis, and keeps you ahead of the market.
+This MVP is a glimpse into how **Generative AI** can transform the way we analyze, understand, and act on complex information — especially in the high-stakes, fast-paced world of crypto.
 
-If you're building in the crypto, AI, or fintech space, let’s talk. The future of intelligent market analysis is just getting started—and we’re excited to be part of it.
+If you're exploring how to integrate generative AI into your own financial analysis or document-heavy workflows, reach out — or fork the repo and build from here.
 
 ---
